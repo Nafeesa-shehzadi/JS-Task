@@ -309,3 +309,96 @@ const transformData = () => {
 // Example usage:
 const transformedData = transformData();
 console.log(transformedData);*/
+//Question # 07
+// Simulated API calls with more realistic data
+const getUserData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        name: "John Doe",
+        email: "Ali@example.com",
+        age: 30,
+        address: {
+          street: "123 Main St",
+          city: "New York",
+          state: "NY",
+          zipCode: "10001",
+        },
+        phone: "123-456-7890",
+        occupation: "Software Engineer",
+        interests: ["coding", "reading", "traveling"],
+      });
+    }, 1000);
+  });
+};
+
+const getOrderData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        orderId: "ORD12345",
+        customerId: "CUST123",
+        orderDate: new Date("2024-10-15T12:34:56Z"),
+        shippingAddress: {
+          name: "John Doe",
+          street: "456 Elm St",
+          city: "Los Angeles",
+          state: "CA",
+          zipCode: "90001",
+        },
+        items: [
+          {
+            productId: "PROD1",
+            name: "Smartphone",
+            quantity: 2,
+            price: 499.99,
+          },
+          {
+            productId: "PROD2",
+            name: "Laptop",
+            quantity: 1,
+            price: 999.99,
+          },
+        ],
+        total: 2499.97,
+        status: "shipped",
+      });
+    }, 1000);
+  });
+};
+
+// Main function to fetch and process the data
+async function fetchAndProcessData() {
+  try {
+    // Fetching both user data and order data concurrently
+    const [user, order] = await Promise.all([getUserData(), getOrderData()]);
+
+    // Optional chaining to check if nested properties exist
+    const userCity = user?.address?.city;
+    const orderPrice = order?.items[0]?.price;
+
+    console.log("User city:", userCity || "City not available");
+    console.log("Order price:", orderPrice || "Price not available");
+
+    // Using Object.keys(), Object.values(), and Object.entries()
+    console.log("User details (Object.keys):", Object.keys(user));
+    console.log("User values (Object.values):", Object.values(user));
+    console.log("User entries (Object.entries):", Object.entries(user));
+
+    console.log("Order details (Object.keys):", Object.keys(order));
+    console.log("Order values (Object.values):", Object.values(order));
+    console.log("Order entries (Object.entries):", Object.entries(order));
+
+    // Converting user and order objects to JSON format
+    const userJson = JSON.stringify(user);
+    const orderJson = JSON.stringify(order);
+
+    console.log("User in JSON format:", userJson);
+    console.log("Order in JSON format:", orderJson);
+  } catch (error) {
+    console.error("An error occurred while fetching data:", error);
+  }
+}
+
+// Call the function
+fetchAndProcessData();
